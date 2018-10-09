@@ -1,0 +1,50 @@
+repositories {
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+buildscript {
+
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "gradle.plugin.org.akhikhl.gretty:gretty:2.0.0"
+    }
+
+}
+
+apply plugin: "org.akhikhl.gretty"
+
+
+gretty {
+    httpPort = 8091
+    scanInterval = 1
+    //  host = '127.0.0.1'
+    servletContainer = 'jetty8'
+    managedClassReload = true
+    jacocoEnabled = false
+    contextPath = "/"
+    //    serverConfigFile = file("$rootDir/web.xml")
+    fastReload = (["baseDir" : "src/main/webapp","pattern":"views/*","excludesPattern":"WEB-INF/*"])
+    inplaceMode = "soft"
+}
+
+apply plugin: "java"
+apply plugin: "war"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'ENTSoft',
+                'Implementation-Version': '1.0'
+    }
+}
+
+
